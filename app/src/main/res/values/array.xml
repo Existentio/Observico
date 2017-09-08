@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Design-->
+    <!-- Label ordering must match values -->
+    <array name="pref_link_option_labels">
+        <item>@string/pref_link_label_hinews</item>
+        <item>@string/pref_link_label_reuters</item>
+        <item>@string/pref_link_label_popmech</item>
+        <!--<item>@string/pref_color_label_yellow</item>-->
+        <!--<item>@string/pref_color_label_grey</item>-->
+        <!--<item>@string/pref_color_label_rhomb</item>-->
+        <!--<item>@string/pref_color_label_hexagon</item>-->
+    </array>
+
+    <array name="pref_link_option_values">
+        <item>@string/pref_link_hinews_value</item>
+        <item>@string/pref_link_reuters_value</item>
+        <item>@string/pref_link_popmech_value</item>
+        <!--<item>@string/pref_color_label_yellow_value</item>-->
+        <!--<item>@string/pref_color_label_grey_value</item>-->
+        <!--<item>@string/pref_color_label_rhomb_value</item>-->
+        <!--<item>@string/pref_color_label_hexagon_value</item>-->
+    </array>
+
+
+
+
+</resources>

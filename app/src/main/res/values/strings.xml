@@ -1,0 +1,37 @@
+<resources>
+
+    <!--Primary-->
+    <string name="app_name">Observico</string>
+    <string name="settings">settings</string>
+
+
+    <!--Preferences-->
+    <string name="pref_link_initial_value" translatable="false">hi-news</string>
+    <string name="pref_link_key" translatable="false">color right</string>
+    <string name="pref_link_label_initial">Hi-news</string>
+
+    <string name="pref_link_label_hinews">Hi-news</string>
+    <string name="pref_link_label_reuters">Reuters(tech)</string>
+    <string name="pref_link_label_popmech">Popmech(tech)</string>
+    <string name="pref_link_label_grey"></string>
+    <string name="pref_link_label_rhomb"></string>
+    <string name="pref_link_label_hexagon"></string>
+
+    <string name="pref_link_hinews_value" translatable="false">hi-news</string>
+    <string name="pref_link_reuters_value" translatable="false">reuters</string>
+    <string name="pref_link_popmech_value" translatable="false">popmech</string>
+    <string name="pref_link_grey_value" translatable="false"></string>
+    <string name="pref_link_rhomb_value" translatable="false"></string>
+    <string name="pref_link_hexagon_value" translatable="false"></string>
+
+
+    <!--URLs-->
+    <string name="hi_news" translatable="false">https://hi-news.ru/feed</string>
+    <string name="reuters_tech" translatable="false">http://feeds.reuters.com/reuters/technologyNews</string>
+    <string name="popmech_tech" translatable="false">   https://www.popmech.ru/out/public-technologies.xml</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>
