@@ -1,4 +1,4 @@
-package com.observico.observico;
+package com.observico.observico.parser;
 
 import com.observico.observico.model.RssItem;
 
@@ -165,10 +165,6 @@ public class XMLParser extends DefaultHandler {
             String[] parts = description.split("src=\"");
             if (parts.length == 2 && parts[1].length() > 0) {
                 String src = parts[1].substring(0, parts[1].indexOf("\""));
-//                String[] srcParts = src.split("http"); // can be removed
-//                if (srcParts.length > 2) {
-//                    src = "http" + srcParts[2];
-//                }
                 return src;
             }
         }

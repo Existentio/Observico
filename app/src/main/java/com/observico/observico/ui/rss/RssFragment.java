@@ -1,7 +1,6 @@
-package com.observico.observico.ui;
+package com.observico.observico.ui.rss;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,31 +9,28 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.observico.observico.R;
-import com.observico.observico.RssConverterFactory;
-import com.observico.observico.RssFeed;
-import com.observico.observico.model.RssService;
+
 import com.observico.observico.model.RssItem;
-import com.observico.observico.util.RssItemAdapter;
+import com.observico.observico.ui.DetailedNewsActivity;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.SimpleXmlConverterFactory;
+import static android.graphics.Color.BLUE;
+import static android.graphics.Color.GREEN;
+import static android.graphics.Color.RED;
 
 
-public class RssFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, RssItemAdapter.OnItemClickListener {
+public class RssFragment extends Fragment implements RssView, SwipeRefreshLayout.OnRefreshListener, RssItemAdapter.OnItemClickListener {
 
     private static final String KEY_FEED = "FEED";
     private String mFeedUrl;
     private RssItemAdapter mAdapter;
     private SwipeRefreshLayout mSwRefresh;
     private RecyclerView mRecyclerView;
+    private RssPresenter presenter;
+
 
     public static RssFragment newInstance(String feedUrl) {
         RssFragment rssFragment = new RssFragment();
@@ -48,6 +44,7 @@ public class RssFragment extends Fragment implements SwipeRefreshLayout.OnRefres
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFeedUrl = getArguments().getString(KEY_FEED);
+        presenter = new RssPresenterImpl(this);
     }
 
     @Override
@@ -62,63 +59,52 @@ public class RssFragment extends Fragment implements SwipeRefreshLayout.OnRefres
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
         mSwRefresh.setOnRefreshListener(this);
-
-        fetchRss();
+        mSwRefresh.setColorSchemeColors(BLUE, GREEN, RED);
+        presenter.fetchRssFeed(mFeedUrl);
         return view;
     }
 
-    private void fetchRss() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://github.com")
-                .addConverterFactory(RssConverterFactory.create())
-//                .addConverterFactory(SimpleXmlConverterFactory.create())
-                .build();
-
-        showLoading();
-        RssService service = retrofit.create(RssService.class);
-        service.getRss(mFeedUrl)
-                .enqueue(new Callback<RssFeed>() {
-                    @Override
-                    public void onResponse(Call<RssFeed> call, Response<RssFeed> response) {
-                        onRssItemsLoaded(response.body().getItems());
-                        hideLoading();
-                    }
-
-                    @Override
-                    public void onFailure(Call<RssFeed> call, Throwable t) {
-                        Toast.makeText(getActivity(), "Ошибка загрузки", Toast.LENGTH_SHORT).show();
-
-                    }
-                });
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
-    public void onRssItemsLoaded(List<RssItem> rssFeeds) {
-        mAdapter.setFeed(rssFeeds);
+    @Override
+    public void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onRefresh() {
+        presenter.fetchRssFeed(mFeedUrl);
+    }
+
+    @Override
+    public void onItemSelected(RssItem rssItem) {
+        Intent intent = new Intent(getContext(), DetailedNewsActivity.class);
+        intent.putExtra("url", rssItem.getLink());
+        startActivity(intent);
+    }
+
+    @Override
+    public void showProgress() {
+        mSwRefresh.setRefreshing(true);
+    }
+
+    @Override
+    public void hideProgress() {
+        mSwRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void setItems(List<RssItem> items) {
+        mAdapter.setFeed(items);
         mAdapter.notifyDataSetChanged();
         if (mRecyclerView.getVisibility() != View.VISIBLE) {
             mRecyclerView.setVisibility(View.VISIBLE);
         }
     }
 
-    public void showLoading() {
-        mSwRefresh.setRefreshing(true);
-    }
 
-    public void hideLoading() {
-        mSwRefresh.setRefreshing(false);
-    }
-
-    @Override
-    public void onRefresh() {
-        fetchRss();
-    }
-
-    @Override
-    public void onItemSelected(RssItem rssItem) {
-//        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(rssItem.getLink())));
-        Intent intent = new Intent(getContext(), DetailedNewsActivity.class);
-        intent.putExtra("url", rssItem.getLink());
-        startActivity(intent);
-
-    }
 }

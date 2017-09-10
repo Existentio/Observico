@@ -1,6 +1,9 @@
-package com.observico.observico;
+package com.observico.observico.parser;
 
 import com.observico.observico.model.RssItem;
+
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
 
 import java.util.List;
 
@@ -8,8 +11,10 @@ import java.util.List;
  * Created by Георгий on 08.09.2017.
  */
 
+//@Root(name = "channel", strict = false)
 public class RssFeed {
 
+//    @ElementList(inline = true, name="item")
     private List<RssItem> items;
 
     public void setItems(List<RssItem> items) {

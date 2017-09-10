@@ -1,4 +1,4 @@
-package com.observico.observico;
+package com.observico.observico.parser;
 
 import android.support.annotation.Nullable;
 

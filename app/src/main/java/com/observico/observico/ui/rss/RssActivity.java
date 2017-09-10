@@ -1,4 +1,4 @@
-package com.observico.observico.ui;
+package com.observico.observico.ui.rss;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -6,33 +6,32 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 
 import com.observico.observico.R;
-import com.observico.observico.util.SettingsHelper;
+import com.observico.observico.data.local.AppPreferenceHelper;
+import com.observico.observico.ui.SettingsActivity;
 //import com.observico.observico.util.MyApplication;
 
 
-public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class RssActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = "main";
-    private SettingsHelper settingsHelper;
-
+    private AppPreferenceHelper appPreferenceHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        settingsHelper = new SettingsHelper(this);
+        appPreferenceHelper = new AppPreferenceHelper("main");
 
         setupSharedPreferences();
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.rlContainer, RssFragment.newInstance(SettingsHelper.getLink()))
+                .add(R.id.main_container, RssFragment.newInstance(appPreferenceHelper.getWebLink()))
                 .commit();
     }
 
@@ -51,30 +50,25 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
     }
 
-
     private void setupSharedPreferences() {
-        // Get all of the values from shared preferences to set it up
-        SharedPreferences sharedPreferences = android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences(this);
-
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         loadUrlFromPreferences(sharedPreferences);
-
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     private void loadUrlFromPreferences(SharedPreferences sharedPreferences) {
-        settingsHelper.chooseWebLink(sharedPreferences.getString(getString(R.string.pref_link_key),
+        appPreferenceHelper.chooseWebLink(sharedPreferences.getString(getString(R.string.pref_link_key),
                 getString(R.string.pref_link_initial_value)));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         switch (item.getItemId()) {
             case R.id.new_game:
                 startActivity(new Intent(this, SettingsActivity.class));

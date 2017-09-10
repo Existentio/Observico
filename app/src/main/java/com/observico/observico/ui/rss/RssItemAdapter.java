@@ -1,4 +1,4 @@
-package com.observico.observico.util;
+package com.observico.observico.ui.rss;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

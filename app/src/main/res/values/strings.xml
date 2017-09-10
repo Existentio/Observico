@@ -7,7 +7,7 @@
 
     <!--Preferences-->
     <string name="pref_link_initial_value" translatable="false">hi-news</string>
-    <string name="pref_link_key" translatable="false">color right</string>
+    <string name="pref_link_key" translatable="false">pref key</string>
     <string name="pref_link_label_initial">Hi-news</string>
 
     <string name="pref_link_label_hinews">Hi-news</string>
