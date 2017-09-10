@@ -3,13 +3,8 @@ package com.observico.observico.service;
 import com.observico.observico.parser.RssConverterFactory;
 import com.observico.observico.parser.RssFeed;
 
-import org.simpleframework.xml.convert.AnnotationStrategy;
-import org.simpleframework.xml.core.Persister;
-
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Retrofit;
-import retrofit2.SimpleXmlConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Url;
 
@@ -28,12 +23,7 @@ public class RssService {
     public RssAPI getAPI() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(RssConverterFactory.create()) //working
-//                .client(new OkHttpClient())
-//                .addConverterFactory(SimpleXmlConverterFactory.create())
-//                .addConverterFactory(SimpleXmlConverterFactory.createNonStrict())
-//                .addConverterFactory(SimpleXmlConverterFactory.createNonStrict(
-//                        new Persister(new AnnotationStrategy())))
+                .addConverterFactory(RssConverterFactory.create())
                 .build();
         return retrofit.create(RssAPI.class);
     }

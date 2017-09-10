@@ -1,31 +1,21 @@
 package com.observico.observico.model;
 
-import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.Root;
-
 import java.io.Serializable;
 
 /**
  * Created by Георгий on 05.09.2017.
  */
 
-//@Root(name = "item", strict = false)
 public class RssItem implements Serializable {
 
-//    @Element(name = "title")
     private String mTitle;
 
-//    @Attribute(name = "link", required = false)
     private String mLink;
 
-//    @Element(name = "image")
     private String mImage;
 
-//    @Element(name = "pubDate")
     private String mPublishDate;
 
-//    @Element(name = "description")
     private String mDescription;
 
     public String getTitle() {
