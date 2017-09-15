@@ -1,4 +1,4 @@
 # Observico
 Android rss feeder app based on MVP architecture.
 
-Used libs: Retrofit 2, Picasso.
+Used libs: Retrofit 2, Jsoup, Picasso.
