@@ -69,6 +69,7 @@ public class RssItemAdapter extends RecyclerView.Adapter<RssItemAdapter.ViewHold
         holder.itemView.setTag(item);
     }
 
+
     @Override
     public int getItemCount() {
         return mItems.size();

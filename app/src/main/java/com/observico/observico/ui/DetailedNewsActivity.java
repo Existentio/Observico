@@ -1,54 +1,93 @@
 package com.observico.observico.ui;
 
 import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 
 import com.observico.observico.R;
+import com.observico.observico.data.local.AppPreferenceHelper;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
+import java.io.IOException;
 
 public class DetailedNewsActivity extends AppCompatActivity {
 
-    WebView mWebView;
-    String mUrl;
+    TextView tvTitle, tvText;
+    AppPreferenceHelper appPreferenceHelper;
+    String url;
+
+    private static final String ARTICLE_BODY = "[itemprop=articleBody]";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_news);
+        overridePendingTransition(R.anim.slide_left, 0);
 
-        mUrl = getIntent().getStringExtra("url");
-        mWebView = (WebView) findViewById(R.id.webview);
-        runWebView();
+        tvTitle = (TextView) findViewById(R.id.detailed_tv_title);
+        tvText = (TextView) findViewById(R.id.detailed_tv_text);
+        appPreferenceHelper = new AppPreferenceHelper("main");
+        url = getIntent().getExtras().getString("url");
+
+        initToolbar();
+        new HtmlParserTask().execute();
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
-    public void runWebView() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mWebView.loadUrl(mUrl);
-                WebSettings webSettings = mWebView.getSettings();
-                webSettings.setUseWideViewPort(true);
-                webSettings.setLoadWithOverviewMode(true);
-                webSettings.setJavaScriptEnabled(true);
-                mWebView.setWebViewClient(new WebViewClient());
+    private void initToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = this.getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    private class HtmlParserTask extends AsyncTask<Void, Void, Document> {
+        Document doc = null;
+        String BASE_URL2 = "https://www.popmech.ru/science/386572-drevnyaya-kitayskaya-zagadka-smozhete-li-vy-eyo-reshit/";
+
+        @Override
+        protected Document doInBackground(Void... params) {
+            try {
+                doc = Jsoup.connect(url).get();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        });
+            return doc;
+        }
+
+        @Override
+        protected void onPostExecute(Document document) {
+            setTitle();
+            setText();
+        }
+
+        private void setTitle() {
+            String title = doc.title();
+            tvTitle.setText(title);
+        }
+
+        private void setText() {
+            Element links = doc.select(ARTICLE_BODY).first();
+            tvText.setText(links.text());
+        }
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // Check if the key event was the Back button and if there's history
-        if ((keyCode == KeyEvent.KEYCODE_BACK) && mWebView.canGoBack()) {
-            mWebView.goBack();
-            return true;
-        }
-        // If it wasn't the Back key or there's no web page history, bubble up to the default
-        // system behavior (probably exit the activity)
-        return super.onKeyDown(keyCode, event);
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_right, 0);
     }
 }

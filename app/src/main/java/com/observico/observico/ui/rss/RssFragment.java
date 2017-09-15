@@ -1,18 +1,24 @@
 package com.observico.observico.ui.rss;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.observico.observico.App;
 import com.observico.observico.R;
 
 import com.observico.observico.model.RssItem;
+import com.observico.observico.ui.ArticleFragment;
 import com.observico.observico.ui.DetailedNewsActivity;
 
 import java.util.List;
@@ -45,6 +51,9 @@ public class RssFragment extends Fragment implements RssView, SwipeRefreshLayout
         super.onCreate(savedInstanceState);
         mFeedUrl = getArguments().getString(KEY_FEED);
         presenter = new RssPresenterImpl(this);
+//
+//        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+//        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
     }
 
     @Override
@@ -55,7 +64,18 @@ public class RssFragment extends Fragment implements RssView, SwipeRefreshLayout
         mSwRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swRefresh);
         mAdapter = new RssItemAdapter(getActivity());
         mAdapter.setListener(this);
+//        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if (position == 0) {
+                    return (2 - position % 2);
+                }
+                return 1;
+            }
+        });
+
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
         mSwRefresh.setOnRefreshListener(this);
@@ -85,6 +105,16 @@ public class RssFragment extends Fragment implements RssView, SwipeRefreshLayout
         Intent intent = new Intent(getContext(), DetailedNewsActivity.class);
         intent.putExtra("url", rssItem.getLink());
         startActivity(intent);
+//        openFragment();
+    }
+
+    private void openFragment() {
+        getFragmentManager()
+                .beginTransaction()
+//                .replace(R.id.main_container, new ArticleFragment())
+                .replace(R.id.main_container, ArticleFragment.newInstance(mFeedUrl))
+                .setCustomAnimations(0, R.anim.slide_left)
+                .commit();
     }
 
     @Override

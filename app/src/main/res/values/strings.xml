@@ -4,6 +4,10 @@
     <string name="app_name">Observico</string>
     <string name="settings">settings</string>
 
+    <!--Seconday-->
+    <string name="test_text"></string>
+    <string name="pref_add_source">source</string>
+
 
     <!--Preferences-->
     <string name="pref_link_initial_value" translatable="false">hi-news</string>
@@ -24,6 +28,9 @@
     <string name="pref_link_rhomb_value" translatable="false"></string>
     <string name="pref_link_hexagon_value" translatable="false"></string>
 
+
+    <string name="add_source_desc">Введите точный адрес RSS ленты (обычно в конце или в начале адреса сайта указывается feed). \nНапример: https://hi-news.ru/feed</string>
+    <string name="feedback_to_developer">Если у Вас есть вопросы или пожелания - смело пишите нам на existentios@gmail.com</string>
 
     <!--URLs-->
     <string name="hi_news" translatable="false">https://hi-news.ru/feed</string>

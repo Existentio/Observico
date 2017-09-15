@@ -2,19 +2,60 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
-        android:key="1"
-
-        android:title="Источник">
-
         <ListPreference
             android:defaultValue="@string/pref_link_initial_value"
             android:entries="@array/pref_link_option_labels"
             android:entryValues="@array/pref_link_option_values"
+            android:icon="@drawable/ic_explore_white_24dp"
             android:key="@string/pref_link_key"
-            android:title="Сайт" />
+            android:title="Источник" />
 
-    </PreferenceCategory>
+        <Preference
+            android:key="@string/pref_add_source"
+            android:icon="@drawable/ic_add_white_24dp"
+            android:title="Добавить источник" />
+
+        <Preference
+            android:key="textdssfd"
+            android:layout="@layout/pref_layout"
+            android:title="Добавить источник" />
+
+
+
+    <Preference
+        android:key="asddsa"
+        android:icon="@drawable/ic_text_format_white_24dp"
+        android:title="Шрифт" />
+
+
+    <Preference
+        android:key="ddsdf"
+        android:icon="@drawable/ic_notifications_white_24dp"
+        android:title="Уведомления" />
+
+    <Preference
+        android:key="ddsdf"
+        android:icon="@drawable/ic_star_border_white_24dp"
+        android:title="Оценить приложение" />
+
+    <Preference
+        android:key="вававыа"
+        android:icon="@drawable/ic_mail_white_24dp"
+        android:title="Написать письмо" />
+
+    <Preference
+        android:key="ddsdf"
+        android:layout="@layout/feedback_layout"
+        android:title="Написать письмо" />
+
+
+        <!--<EditTextPreference-->
+        <!--android:defaultValue="@string/pref_size_default_search"-->
+        <!--android:key="@string/pref_size_key_search"-->
+        <!--android:title="@string/pref_size_label_search"-->
+        <!--android:summary="Значение от 40 до 80"-->
+        <!--/>-->
+
 
 
 
